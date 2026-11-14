@@ -13,18 +13,18 @@ Built with a dark premium cinematic editorial aesthetic inspired by high-craft d
 - **Styling**: [Tailwind CSS 3](https://tailwindcss.com/)
 - **Motion & Interactions**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
-- **Email Service**: [@emailjs/browser](https://www.emailjs.com/) with native `mailto:` fallback
+- **Deployment Platform**: [Vercel](https://vercel.com/) / Static Hosting
 
 ---
 
 ## Design System
 
-- **Background**: `#101116`
+- **Background**: `#101116` (Deep Obsidian)
 - **Secondary Background**: `#17191F`
 - **Card Surface**: `#20232B`
 - **Text (Primary)**: `#F5F3EE`
 - **Text (Secondary)**: `#A5A7AE`
-- **Accent**: `#7599FF`
+- **Accent**: `#7599FF` (Electric Cinematic Blue)
 - **Border**: `#343741`
 - **Typography**:
   - Headings: `Space Grotesk`
@@ -37,7 +37,7 @@ Built with a dark premium cinematic editorial aesthetic inspired by high-craft d
 
 ```text
 portfolio/
-├── .env.example              # Environment variables template for EmailJS
+├── .env.example              # Environment variables template
 ├── .gitignore                # Git ignore configuration
 ├── PROJECT_CONTEXT.md        # Single source of truth for personal data and rules
 ├── README.md                 # Project documentation & setup instructions
@@ -46,31 +46,37 @@ portfolio/
 ├── postcss.config.js         # PostCSS configuration
 ├── tailwind.config.js        # Tailwind theme tokens & fonts
 ├── tsconfig.json             # TypeScript compiler settings
+├── vercel.json               # Vercel deployment & routing configuration
 ├── vite.config.ts            # Vite build configuration
 ├── public/
-│   └── favicon.svg           # Custom branded SVG favicon
+│   ├── favicon.svg           # Custom branded SVG favicon
+│   └── og-image.png          # 1200x630 Open Graph & Twitter social card
+├── raw-assets/               # Uncompressed high-res master files (outside bundle)
+│   └── 1000038596.jpg.jpeg   # Original 5.65 MB profile photo archive
 └── src/
     ├── assets/
     │   └── images/
-    │       ├── profile-placeholder.svg      # Replaceable portrait asset
-    │       └── certificate-placeholder.svg  # Replaceable certificate asset
+    │       ├── profile.jpg          # Web-optimized profile photo (1200x1600, 267 KB)
+    │       ├── certificate.jpg      # Official Certiport HTML5 certificate (364 KB)
+    │       └── campusfix.png        # Official CampusFix portal screenshot (113 KB)
     ├── components/
     │   ├── About.tsx          # Editorial profile & academic overview
-    │   ├── Certifications.tsx # Verified HTML5 certification showcase
-    │   ├── Contact.tsx        # Direct contact channels & validated EmailJS form
+    │   ├── Certifications.tsx # Verified HTML5 certification showcase + Lightbox
+    │   ├── Contact.tsx        # Direct contact channels (Email, LinkedIn, GitHub)
     │   ├── Footer.tsx         # Semantic footer, social links, back to top
     │   ├── Hero.tsx           # Cinematic display hero & call-to-actions
     │   ├── Journey.tsx        # Vertical academic & development timeline
     │   ├── Navbar.tsx         # Sticky glass navigation with active section indicator
     │   ├── OrbitalScene.tsx   # Custom animated celestial SVG visual
+    │   ├── PageLoader.tsx     # Non-blocking 400ms top progress indicator
     │   ├── ProjectCard.tsx    # Asymmetric alternating project showcase card
-    │   ├── ProjectMockup.tsx  # Interactive concept mockups (CampusFix / AngularJS)
+    │   ├── ProjectMockup.tsx  # Live preview frames (CampusFix screenshot / AngularJS)
     │   └── ProjectModal.tsx   # Accessible focus-trapped project details dialog
     ├── data/
     │   ├── profile.ts         # Personal details, education, contact links
     │   ├── projects.ts        # Verified project metadata & verified URLs
     │   └── skills.ts          # Core languages, frontend tools, and interest areas
-    ├── App.tsx               # Primary layout composition
+    ├── App.tsx               # Primary layout composition + MotionConfig
     ├── index.css             # Tailwind layers, font families, and reduced-motion
     ├── main.tsx              # React DOM entry point
     └── vite-env.d.ts         # Vite client type definitions
@@ -78,58 +84,28 @@ portfolio/
 
 ---
 
-## Contact Form Setup (EmailJS)
+## Replacing Images
 
-The contact form in `src/components/Contact.tsx` is powered by **EmailJS** to send messages directly from the client side without needing a custom email server backend.
+All images are located in `src/assets/images/`:
 
-### 1. Create an EmailJS Account
-1. Visit [emailjs.com](https://www.emailjs.com/) and create a free account.
-2. Sign in to your dashboard at [dashboard.emailjs.com](https://dashboard.emailjs.com/).
+### 1. Profile Photo (`src/assets/images/profile.jpg`)
+- Used in the **About** section.
+- **Aspect Ratio**: Portrait (approx. 4:5 or 3:4).
+- **Recommended resolution**: ~1200×1600 px (compressed JPG, 200–300 KB).
+- **Object position**: Controlled via `object-[center_20%]` in `src/components/About.tsx` to ensure your face is framed correctly without cropping.
+- **How to update**: Save your new photo as `src/assets/images/profile.jpg` (or change the import path in `src/components/About.tsx`).
 
-### 2. Add an Email Service
-1. In the sidebar, navigate to **Email Services** &rarr; **Add New Service**.
-2. Select your email provider (e.g., **Gmail** or custom SMTP).
-3. Connect your email account and click **Create Service**.
-4. Note your **Service ID** (e.g. `service_abc123`).
+### 2. Certificate Image (`src/assets/images/certificate.jpg`)
+- Used in the **Certifications** section and high-resolution **Lightbox**.
+- **Aspect Ratio**: Landscape (~16:11 or 4:3).
+- **Recommended resolution**: ~2000×1400 px or higher so text is crisp when viewed full-screen in the lightbox.
+- **How to update**: Save your new certificate as `src/assets/images/certificate.jpg` (or update the import in `src/components/Certifications.tsx`).
 
-### 3. Create an Email Template
-1. In the sidebar, go to **Email Templates** &rarr; **Create New Template**.
-2. Configure the email template subject and body:
-   - **Subject**: `New Portfolio Message: {{subject}}`
-   - **Content**:
-     ```text
-     You received a new message from your portfolio contact form:
-
-     From: {{from_name}} ({{from_email}})
-     Subject: {{subject}}
-
-     Message:
-     {{message}}
-     ```
-3. Save the template and note the **Template ID** (e.g. `template_xyz789`).
-
-### 4. Obtain Your Public Key
-1. Go to **Account** &rarr; **API Keys** in the EmailJS dashboard.
-2. Copy your **Public Key** (Account User ID).
-
-### 5. Configure Your Local Environment
-Create a `.env` file in the project root:
-```bash
-cp .env.example .env
-```
-Populate `.env` with your actual credentials:
-```env
-VITE_EMAILJS_SERVICE_ID=service_abc123
-VITE_EMAILJS_TEMPLATE_ID=template_xyz789
-VITE_EMAILJS_PUBLIC_KEY=your_public_key
-```
-
-### 6. Automatic Mailto Fallback
-If `.env` is omitted or contains placeholder values:
-- The form performs client-side validation as normal.
-- When submitted, it automatically constructs a prefilled `mailto:` link opening the user's default email client addressed to `vishnugpai007@gmail.com`.
-- An honest status message informs the user that EmailJS is not configured and the mailto fallback was triggered.
-- **Strict honesty guarantee**: Success feedback is only shown when an email is genuinely dispatched and acknowledged by the server.
+### 3. CampusFix Screenshot (`src/assets/images/campusfix.png`)
+- Used in the **Projects** card and the **Project Detail Modal**.
+- **Aspect Ratio**: Standard desktop browser viewport (16:10 or 16:9, e.g. 1440×900 px).
+- **Recommended format**: PNG or optimized WebP.
+- **How to update**: Replace `src/assets/images/campusfix.png` (or update `image` in `src/data/projects.ts`).
 
 ---
 
@@ -149,3 +125,19 @@ npm run dev
 ```bash
 npm run build
 ```
+
+### 4. Preview Production Build Locally
+```bash
+npm run preview
+```
+
+---
+
+## Deployment (Vercel, Netlify, GitHub Pages)
+
+### Vercel (Recommended)
+This repository includes a preconfigured `vercel.json` with SPA routing and immutable asset caching.
+1. Push your code to GitHub.
+2. Import the repository in [vercel.com](https://vercel.com/).
+3. No environment variables are required for standard deployment.
+4. Click **Deploy**.

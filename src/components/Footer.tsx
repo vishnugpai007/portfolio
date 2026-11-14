@@ -33,7 +33,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="w-full border-t border-border bg-secondary-bg/40 backdrop-blur-sm text-text font-body transition-colors">
+    <footer className="w-full border-t border-border bg-secondary-bg/40 backdrop-blur-sm text-text font-body transition-colors overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-12 md:py-16">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-10">
           {/* Brand & Subtitle */}
@@ -75,31 +75,60 @@ export const Footer: React.FC = () => {
               Connect
             </div>
             <div className="flex items-center gap-3">
-              <a
-                href={profileData.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub Profile"
-                className="p-2.5 rounded-lg border border-border bg-card text-secondary-text hover:text-text hover:border-accent/60 hover:text-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href={profileData.contact.linkedIn}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn Profile"
-                className="p-2.5 rounded-lg border border-border bg-card text-secondary-text hover:text-text hover:border-accent/60 hover:text-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href={`mailto:${profileData.contact.email}`}
-                aria-label="Send Email"
-                className="p-2.5 rounded-lg border border-border bg-card text-secondary-text hover:text-text hover:border-accent/60 hover:text-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+              {/* GitHub */}
+              <div className="relative group">
+                <a
+                  href={profileData.contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit GitHub profile"
+                  className="p-2.5 rounded-lg border border-border bg-card text-secondary-text hover:text-text hover:border-accent/60 hover:text-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent flex items-center justify-center"
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute -top-8 left-0 sm:left-1/2 sm:-translate-x-1/2 px-2.5 py-1 rounded bg-card border border-border text-[11px] font-mono text-text whitespace-nowrap opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 shadow-lg z-20"
+                >
+                  Visit GitHub profile
+                </span>
+              </div>
+
+              {/* LinkedIn */}
+              <div className="relative group">
+                <a
+                  href={profileData.contact.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit LinkedIn profile"
+                  className="p-2.5 rounded-lg border border-border bg-card text-secondary-text hover:text-text hover:border-accent/60 hover:text-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent flex items-center justify-center"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded bg-card border border-border text-[11px] font-mono text-text whitespace-nowrap opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 shadow-lg z-20"
+                >
+                  Visit LinkedIn profile
+                </span>
+              </div>
+
+              {/* Email */}
+              <div className="relative group">
+                <a
+                  href={`mailto:${profileData.contact.email}`}
+                  aria-label="Send a mail to vishnugpai007@gmail.com"
+                  className="p-2.5 rounded-lg border border-border bg-card text-secondary-text hover:text-text hover:border-accent/60 hover:text-accent transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent flex items-center justify-center"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute -top-8 right-0 px-2.5 py-1 rounded bg-card border border-border text-[11px] font-mono text-text whitespace-nowrap opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 shadow-lg z-20"
+                >
+                  Send a mail to vishnugpai007@gmail.com
+                </span>
+              </div>
             </div>
           </div>
         </div>

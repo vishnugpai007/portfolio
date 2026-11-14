@@ -1,139 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Linkedin, Github, CheckCircle2, AlertCircle, Loader2, ArrowUpRight, MessageSquare } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { Mail, Linkedin, Github, ArrowUpRight } from 'lucide-react';
 import { profileData } from '../data/profile';
 
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
-
-interface FormErrors {
-  name?: string;
-  email?: string;
-  subject?: string;
-  message?: string;
-}
+const CONTACT_CHANNELS = [
+  {
+    id: 'email',
+    name: 'Email',
+    subLabel: 'Send a mail to vishnugpai007@gmail.com',
+    handle: profileData.contact.email,
+    href: `mailto:${profileData.contact.email}`,
+    icon: Mail,
+    isExternal: false,
+    description: 'Direct communication for project inquiries, collaboration, and questions.',
+    actionText: 'Compose Email',
+  },
+  {
+    id: 'linkedin',
+    name: 'LinkedIn',
+    subLabel: 'Professional Network & Profile',
+    handle: 'vishnu-g-pai',
+    href: profileData.contact.linkedIn,
+    icon: Linkedin,
+    isExternal: true,
+    description: 'Connect with me professionally, explore background, and discuss software development.',
+    actionText: 'Connect on LinkedIn',
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    subLabel: 'Source Repositories & Code',
+    handle: 'vishnugpai007',
+    href: profileData.contact.github,
+    icon: Github,
+    isExternal: true,
+    description: 'Explore my open source repositories, commit history, and active project builds.',
+    actionText: 'View GitHub Profile',
+  },
+];
 
 export const Contact: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'fallback' | 'error'>('idle');
-  const [statusMessage, setStatusMessage] = useState<string>('');
-
-  const validate = (): boolean => {
-    const errs: FormErrors = {};
-
-    if (!formData.name.trim()) {
-      errs.name = 'Please provide your name.';
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim()) {
-      errs.email = 'Please provide your email address.';
-    } else if (!emailRegex.test(formData.email.trim())) {
-      errs.email = 'Please enter a valid email address.';
-    }
-
-    if (!formData.subject.trim()) {
-      errs.subject = 'Please enter a subject.';
-    }
-
-    if (!formData.message.trim()) {
-      errs.message = 'Please enter your message.';
-    } else if (formData.message.trim().length < 10) {
-      errs.message = 'Message must be at least 10 characters long.';
-    }
-
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-    setStatusMessage('');
-
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    const isEmailJSConfigured =
-      Boolean(serviceId && templateId && publicKey) &&
-      serviceId !== 'your_service_id_here' &&
-      templateId !== 'your_template_id_here' &&
-      publicKey !== 'your_public_key_here';
-
-    if (!isEmailJSConfigured) {
-      // Honest Fallback: Open in default mail client with prefilled details
-      const mailtoUrl = `mailto:${profileData.contact.email}?subject=${encodeURIComponent(
-        `[Portfolio] ${formData.subject}`
-      )}&body=${encodeURIComponent(
-        `Hi Vishnu,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}\n`
-      )}`;
-
-      window.location.href = mailtoUrl;
-
-      setIsSubmitting(false);
-      setSubmitStatus('fallback');
-      setStatusMessage(
-        'EmailJS environment keys are not configured in this environment (.env). Form details have been opened in your default email client via mailto fallback.'
-      );
-      return;
-    }
-
-    // Really send via EmailJS
-    try {
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        },
-        publicKey
-      );
-
-      // Only show genuine success after promise resolves cleanly
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setStatusMessage('Thank you for reaching out! Your message was sent successfully.');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (err: unknown) {
-      setIsSubmitting(false);
-      setSubmitStatus('error');
-      const errorMsg =
-        typeof err === 'object' && err !== null && 'text' in err
-          ? String((err as { text: string }).text)
-          : 'Failed to send message via EmailJS. Please try again or email directly.';
-      setStatusMessage(errorMsg);
-    }
-  };
-
   return (
     <section
       id="contact"
@@ -170,262 +76,62 @@ export const Contact: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* 12-Column Responsive Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
-          {/* Left Column: Direct Connect Channels */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 space-y-6"
-          >
-            <div className="p-6 sm:p-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm space-y-6">
-              <h3 className="font-heading font-bold text-xl text-text tracking-tight">
-                Direct Channels
-              </h3>
-              <p className="text-sm font-body text-secondary-text leading-relaxed">
-                Feel free to email directly, connect on LinkedIn, or inspect my repositories and active contributions on GitHub.
-              </p>
-
-              {/* Direct Buttons */}
-              <div className="space-y-3">
-                {/* Email Button */}
-                <a
-                  href={`mailto:${profileData.contact.email}`}
-                  className="group w-full p-4 rounded-xl border border-border bg-secondary-bg/60 hover:bg-secondary-bg hover:border-accent/60 flex items-center justify-between transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-lg border border-border bg-card text-accent group-hover:scale-105 transition-transform">
-                      <Mail className="w-4 h-4" />
-                    </div>
-                    <div className="text-left">
-                      <div className="text-[10px] font-mono text-secondary-text uppercase">Email</div>
-                      <div className="text-xs sm:text-sm font-mono font-medium text-text">{profileData.contact.email}</div>
-                    </div>
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-secondary-text group-hover:text-accent transition-colors" />
-                </a>
-
-                {/* LinkedIn Button */}
-                <a
-                  href={profileData.contact.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group w-full p-4 rounded-xl border border-border bg-secondary-bg/60 hover:bg-secondary-bg hover:border-accent/60 flex items-center justify-between transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-lg border border-border bg-card text-accent group-hover:scale-105 transition-transform">
-                      <Linkedin className="w-4 h-4" />
-                    </div>
-                    <div className="text-left">
-                      <div className="text-[10px] font-mono text-secondary-text uppercase">LinkedIn</div>
-                      <div className="text-xs sm:text-sm font-mono font-medium text-text">vishnu-g-pai</div>
-                    </div>
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-secondary-text group-hover:text-accent transition-colors" />
-                </a>
-
-                {/* GitHub Button */}
-                <a
-                  href={profileData.contact.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group w-full p-4 rounded-xl border border-border bg-secondary-bg/60 hover:bg-secondary-bg hover:border-accent/60 flex items-center justify-between transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-lg border border-border bg-card text-accent group-hover:scale-105 transition-transform">
-                      <Github className="w-4 h-4" />
-                    </div>
-                    <div className="text-left">
-                      <div className="text-[10px] font-mono text-secondary-text uppercase">GitHub</div>
-                      <div className="text-xs sm:text-sm font-mono font-medium text-text">vishnugpai007</div>
-                    </div>
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-secondary-text group-hover:text-accent transition-colors" />
-                </a>
-              </div>
-            </div>
-
-            {/* Academic Location Pill */}
-            <div className="p-4 rounded-xl border border-border/80 bg-secondary-bg/40 text-xs font-mono text-secondary-text flex items-center justify-between">
-              <span>LOCATION: FISAT, KERALA</span>
-              <span className="text-accent font-semibold">UTC+05:30</span>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7"
-          >
-            <form
-              onSubmit={handleSubmit}
-              noValidate
-              className="p-6 sm:p-8 md:p-10 rounded-2xl border border-border bg-card/70 backdrop-blur-md shadow-2xl space-y-6"
-            >
-              <div className="flex items-center gap-2 pb-4 border-b border-border text-xs font-mono text-secondary-text">
-                <MessageSquare className="w-4 h-4 text-accent" />
-                <span>Send a Message</span>
-              </div>
-
-              {/* Status Banner (Never faked!) */}
-              {submitStatus === 'success' && (
-                <div
-                  role="alert"
-                  className="p-4 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 text-xs sm:text-sm flex items-start gap-3"
-                >
-                  <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
-                  <span>{statusMessage}</span>
-                </div>
-              )}
-
-              {submitStatus === 'fallback' && (
-                <div
-                  role="alert"
-                  className="p-4 rounded-xl border border-accent/40 bg-accent/10 text-text text-xs sm:text-sm flex items-start gap-3 font-mono"
-                >
-                  <AlertCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                  <span>{statusMessage}</span>
-                </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div
-                  role="alert"
-                  className="p-4 rounded-xl border border-red-500/40 bg-red-500/10 text-red-400 text-xs sm:text-sm flex items-start gap-3 font-mono"
-                >
-                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                  <span>{statusMessage}</span>
-                </div>
-              )}
-
-              {/* Name & Email Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Name */}
-                <div className="space-y-1.5">
-                  <label htmlFor="contact-name" className="text-xs font-mono text-secondary-text block">
-                    Your Name *
-                  </label>
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    aria-invalid={!!errors.name}
-                    aria-describedby={errors.name ? 'name-error' : undefined}
-                    placeholder="e.g. Alex Johnson"
-                    className={`w-full px-4 py-3 rounded-xl border bg-secondary-bg/80 text-text text-sm font-body placeholder:text-secondary-text/40 focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                      errors.name ? 'border-red-500/70' : 'border-border'
-                    }`}
-                  />
-                  {errors.name && (
-                    <p id="name-error" className="text-xs font-mono text-red-400 mt-1">
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-
-                {/* Email */}
-                <div className="space-y-1.5">
-                  <label htmlFor="contact-email" className="text-xs font-mono text-secondary-text block">
-                    Your Email *
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    aria-invalid={!!errors.email}
-                    aria-describedby={errors.email ? 'email-error' : undefined}
-                    placeholder="alex@example.com"
-                    className={`w-full px-4 py-3 rounded-xl border bg-secondary-bg/80 text-text text-sm font-body placeholder:text-secondary-text/40 focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                      errors.email ? 'border-red-500/70' : 'border-border'
-                    }`}
-                  />
-                  {errors.email && (
-                    <p id="email-error" className="text-xs font-mono text-red-400 mt-1">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Subject */}
-              <div className="space-y-1.5">
-                <label htmlFor="contact-subject" className="text-xs font-mono text-secondary-text block">
-                  Subject *
-                </label>
-                <input
-                  id="contact-subject"
-                  name="subject"
-                  type="text"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  aria-invalid={!!errors.subject}
-                  aria-describedby={errors.subject ? 'subject-error' : undefined}
-                  placeholder="e.g. Collaboration on a Web Project"
-                  className={`w-full px-4 py-3 rounded-xl border bg-secondary-bg/80 text-text text-sm font-body placeholder:text-secondary-text/40 focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                    errors.subject ? 'border-red-500/70' : 'border-border'
-                  }`}
-                />
-                {errors.subject && (
-                  <p id="subject-error" className="text-xs font-mono text-red-400 mt-1">
-                    {errors.subject}
-                  </p>
-                )}
-              </div>
-
-              {/* Message */}
-              <div className="space-y-1.5">
-                <label htmlFor="contact-message" className="text-xs font-mono text-secondary-text block">
-                  Message *
-                </label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  aria-invalid={!!errors.message}
-                  aria-describedby={errors.message ? 'message-error' : undefined}
-                  placeholder="Describe your idea, project, or question..."
-                  className={`w-full px-4 py-3 rounded-xl border bg-secondary-bg/80 text-text text-sm font-body placeholder:text-secondary-text/40 focus:outline-none focus:ring-2 focus:ring-accent transition-all resize-y min-h-[120px] ${
-                    errors.message ? 'border-red-500/70' : 'border-border'
-                  }`}
-                />
-                {errors.message && (
-                  <p id="message-error" className="text-xs font-mono text-red-400 mt-1">
-                    {errors.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-accent hover:opacity-90 text-bg font-mono text-xs uppercase tracking-wider font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        {/* 3 Channel Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {CONTACT_CHANNELS.map((channel, idx) => {
+            const Icon = channel.icon;
+            return (
+              <motion.a
+                key={channel.id}
+                href={channel.href}
+                target={channel.isExternal ? '_blank' : undefined}
+                rel={channel.isExternal ? 'noopener noreferrer' : undefined}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="group relative flex flex-col justify-between p-6 sm:p-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/60 hover:bg-card/90 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Transmitting Message...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Send Message</span>
-                  </>
-                )}
-              </button>
-            </form>
-          </motion.div>
+                <div>
+                  {/* Top Bar with Icon & Action Arrow */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="p-3 rounded-xl border border-border bg-secondary-bg/80 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:border-accent/40">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div className="p-2 rounded-full border border-border/80 bg-secondary-bg/40 text-secondary-text group-hover:text-accent group-hover:border-accent/50 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  {/* Label & Handle */}
+                  <div className="space-y-1 mb-3">
+                    <div className="text-[11px] font-mono text-secondary-text uppercase tracking-wider">
+                      {channel.name}
+                    </div>
+                    <div className="text-lg sm:text-xl font-heading font-bold text-text group-hover:text-accent transition-colors break-all">
+                      {channel.handle}
+                    </div>
+                  </div>
+
+                  {/* SubLabel / Action Hint */}
+                  <p className="text-xs font-mono text-accent/90 mb-3 font-medium">
+                    {channel.subLabel}
+                  </p>
+
+                  {/* Context description */}
+                  <p className="text-xs sm:text-sm font-body text-secondary-text leading-relaxed">
+                    {channel.description}
+                  </p>
+                </div>
+
+                {/* Bottom Action Footer */}
+                <div className="mt-8 pt-4 border-t border-border/60 flex items-center justify-between text-xs font-mono text-secondary-text group-hover:text-text transition-colors">
+                  <span>{channel.actionText}</span>
+                  <span className="text-accent group-hover:translate-x-1 transition-transform">&rarr;</span>
+                </div>
+              </motion.a>
+            );
+          })}
         </div>
       </div>
     </section>

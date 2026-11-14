@@ -35,7 +35,7 @@
 - **Never invent** experience, awards, internships, hackathon wins, statistics, skill percentages, dates, grades, or technologies.
 - Descriptions must reflect a second-year student's genuine experience and learning journey.
 - **No fake live-demo buttons**: Only link to live demos if they truly exist; otherwise link to the GitHub repository or code source honestly.
-- **No fake success messages**: All UI feedback, forms, and interactions must represent genuine state.
+- **No fake success messages**: All UI feedback and interactions must represent genuine state. Direct contact is handled honestly via direct mailto links and external profile links with no simulated submission or unverified messages.
 
 ---
 
