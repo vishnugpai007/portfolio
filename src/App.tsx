@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { About } from './components/About';
 import { Footer } from './components/Footer';
 
 interface SectionPlaceholderProps {
@@ -55,12 +56,9 @@ export default function App() {
         {/* Genuine Hero Section */}
         <Hero />
 
-        <SectionPlaceholder
-          id="about"
-          tag="02 // PROFILE"
-          title="About"
-          subtitle="Editorial background, education at FISAT, and personal focus placeholder."
-        />
+        {/* Genuine About Section */}
+        <About />
+
         <SectionPlaceholder
           id="projects"
           tag="03 // WORK"
