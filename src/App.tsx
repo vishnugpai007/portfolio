@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
+import { Hero } from './components/Hero';
 import { Footer } from './components/Footer';
 
 interface SectionPlaceholderProps {
@@ -49,14 +50,11 @@ export default function App() {
       {/* Sticky Global Navigation */}
       <Navbar />
 
-      {/* Main Semantic Content Area with Section Placeholders */}
+      {/* Main Semantic Content Area */}
       <main id="main-content" className="flex-1 w-full flex flex-col">
-        <SectionPlaceholder
-          id="home"
-          tag="01 // HERO"
-          title="Home"
-          subtitle="Cinematic Hero & Builder Identity section placeholder."
-        />
+        {/* Genuine Hero Section */}
+        <Hero />
+
         <SectionPlaceholder
           id="about"
           tag="02 // PROFILE"
