@@ -3,6 +3,8 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Projects } from './components/Projects';
+import { Skills } from './components/Skills';
+import { Journey } from './components/Journey';
 import { Footer } from './components/Footer';
 
 interface SectionPlaceholderProps {
@@ -63,18 +65,12 @@ export default function App() {
         {/* Genuine Projects Section */}
         <Projects />
 
-        <SectionPlaceholder
-          id="skills"
-          tag="04 // CAPABILITIES"
-          title="Skills"
-          subtitle="Core programming, frontend, and database fundamentals placeholder."
-        />
-        <SectionPlaceholder
-          id="journey"
-          tag="05 // TIMELINE"
-          title="Journey"
-          subtitle="Second-year CS student academic & development timeline placeholder."
-        />
+        {/* Genuine Skills Section */}
+        <Skills />
+
+        {/* Genuine Journey Section */}
+        <Journey />
+
         <SectionPlaceholder
           id="contact"
           tag="06 // CONNECT"
