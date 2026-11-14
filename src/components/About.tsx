@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, MapPin, GraduationCap, Calendar, BookOpen, Sparkles, CheckCircle2 } from 'lucide-react';
-import profilePlaceholder from '../assets/images/profile-placeholder.svg';
+import profileImg from '../assets/images/profile.jpg';
 import { focusAreas } from '../data/skills';
 
 const INFO_DETAILS = [
@@ -83,10 +83,13 @@ export const About: React.FC = () => {
               {/* Image Frame */}
               <div className="relative aspect-[4/5] bg-secondary-bg flex items-center justify-center p-3 sm:p-4">
                 <img
-                  src={profilePlaceholder}
-                  alt="Portrait placeholder for Vishnu G Pai - Computer Science student at FISAT"
-                  className="w-full h-full object-contain rounded-lg border border-border/60 transition-transform duration-500 group-hover:scale-[1.01]"
+                  src={profileImg}
+                  alt="Portrait of Vishnu G Pai"
+                  width={600}
+                  height={750}
+                  className="w-full h-full object-cover object-[center_20%] rounded-lg border border-border/60 transition-transform duration-500 group-hover:scale-[1.02]"
                   loading="lazy"
+                  decoding="async"
                 />
 
                 {/* Corner Focal Brackets */}

@@ -17,6 +17,11 @@ export interface ProfileData {
   };
   certification: {
     title: string;
+    issuer?: string;
+    dateAwarded?: string;
+    validity?: string;
+    verificationUrl?: string;
+    verificationCode?: string;
     note?: string;
   };
   interests: string[];
@@ -40,8 +45,13 @@ export const profileData: ProfileData = {
     github: "https://github.com/vishnugpai007",
   },
   certification: {
-    title: "HTML5 – Web Application Development",
-    note: "Certification in HTML5 web application development fundamentals.",
+    title: "HTML5 Application Development",
+    issuer: "Certiport, a Pearson VUE business (Information Technology Specialist)",
+    dateAwarded: "January 16, 2026",
+    validity: "5 years from date of issue",
+    verificationUrl: "https://verify.certiport.com",
+    verificationCode: "ybmT-DkTL",
+    note: "Official certification in HTML5 Application Development fundamentals verified via Certiport.",
   },
   interests: [
     "Full-Stack Development",

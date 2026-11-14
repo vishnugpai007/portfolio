@@ -19,7 +19,11 @@
   - **Database**: SQL
   - **Interests**: Full-Stack Development, Software Engineering, Application Development, Problem Solving, Web Development, Entrepreneurship
 - **Certification**:
-  - HTML5 – Web Application Development *(Note: No issuer, date, or URL known. Never invent them.)*
+  - **HTML5 Application Development**
+    - **Issuer**: Certiport, a Pearson VUE business (Information Technology Specialist)
+    - **Date Awarded**: January 16, 2026
+    - **Validity**: 5 years from date of issue
+    - **Verification**: https://verify.certiport.com (Verification Code: `ybmT-DkTL`, entered directly on Certiport verification portal)
 - **Projects**:
   - **CampusFix**: [https://github.com/vishnugpai007/CampusFix](https://github.com/vishnugpai007/CampusFix)
   - **First Project – AngularJS**: [https://github.com/vishnugpai007/firstprojectangularjs](https://github.com/vishnugpai007/firstprojectangularjs)

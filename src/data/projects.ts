@@ -1,3 +1,5 @@
+import campusfixImg from '../assets/images/campusfix.png';
+
 export interface ProjectItem {
   id: string;
   projectNumber: string;
@@ -5,6 +7,8 @@ export interface ProjectItem {
   subtitle: string;
   category: string;
   description: string;
+  image?: string;
+  imageAlt?: string;
   objective?: string;
   problemStatement?: string;
   proposedSolution?: string;
@@ -30,6 +34,8 @@ export const projectsData: ProjectItem[] = [
     subtitle: "Campus Complaint & Maintenance Management Platform",
     category: "Full-Stack Web Application",
     isFlagship: true,
+    image: campusfixImg,
+    imageAlt: "CampusFix campus maintenance portal dashboard screenshot showing issue reporting options and login buttons",
     description:
       "CampusFix is a campus-focused complaint management platform designed to make reporting and resolving infrastructure-related issues easier for students and college staff. Students can report problems within their college campus and hostels, including Wi-Fi connectivity issues, plumbing problems, smart board malfunctions and other maintenance-related concerns. Staff members and hostel administrators can view submitted complaints, respond to them and update their progress.",
     objective:

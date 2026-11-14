@@ -21,7 +21,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
     document.body.style.overflow = 'hidden';
 
     // Focus close button initially
-    closeBtnRef.current?.focus();
+    const timer = setTimeout(() => {
+      closeBtnRef.current?.focus();
+    }, 50);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -54,6 +56,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = originalOverflow;
     };
@@ -126,6 +129,38 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               {project.subtitle}
             </p>
           </div>
+
+          {/* Project Screenshot / Visual Preview */}
+          {project.image && (
+            <div className="rounded-xl overflow-hidden border border-border bg-secondary-bg/80 shadow-lg">
+              <div className="px-4 py-2.5 border-b border-border bg-card/80 flex items-center justify-between text-xs font-mono text-secondary-text">
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                  </div>
+                  <span className="ml-1 text-[11px] text-secondary-text">
+                    {project.id === 'campusfix' ? 'campusfix.app / portal' : `${project.id}.local`}
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-accent uppercase tracking-wider">
+                  Verified Screenshot
+                </span>
+              </div>
+              <div className="relative aspect-[16/10] bg-black/40 overflow-hidden flex items-center justify-center">
+                <img
+                  src={project.image}
+                  alt={project.imageAlt || `${project.title} screenshot`}
+                  width={1440}
+                  height={900}
+                  className="w-full h-full object-contain sm:object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Overview */}
           <div className="space-y-3">
