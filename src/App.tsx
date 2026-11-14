@@ -9,14 +9,14 @@ import { Journey } from './components/Journey';
 import { Certifications } from './components/Certifications';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
-
+import { Analytics } from '@vercel/analytics/react';
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="min-h-screen bg-bg text-text bg-grid-texture flex flex-col font-body selection:bg-accent selection:text-bg">
         {/* Quick refined top loading indicator */}
         <PageLoader />
-
+        <Analytics />
         {/* Skip to Main Content for Accessibility */}
         <a
           href="#main-content"
