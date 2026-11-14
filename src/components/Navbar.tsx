@@ -197,7 +197,7 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden border-b border-border bg-bg/95 backdrop-blur-xl overflow-hidden"
+            className="lg:hidden border-b border-border bg-bg/95 backdrop-blur-xl overflow-hidden"
           >
             <div className="px-6 py-6 flex flex-col gap-2">
               <span className="text-[10px] uppercase font-mono tracking-widest text-secondary-text mb-1">

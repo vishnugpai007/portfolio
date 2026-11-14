@@ -1,3 +1,5 @@
+import { MotionConfig } from 'framer-motion';
+import { PageLoader } from './components/PageLoader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -10,44 +12,49 @@ import { Footer } from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-bg text-text bg-grid-texture flex flex-col font-body selection:bg-accent selection:text-bg">
-      {/* Skip to Main Content for Accessibility */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-bg focus:font-mono focus:font-bold focus:rounded-md focus:shadow-xl focus:outline-none"
-      >
-        Skip to main content
-      </a>
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-bg text-text bg-grid-texture flex flex-col font-body selection:bg-accent selection:text-bg">
+        {/* Quick refined top loading indicator */}
+        <PageLoader />
 
-      {/* Sticky Global Navigation */}
-      <Navbar />
+        {/* Skip to Main Content for Accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-bg focus:font-mono focus:font-bold focus:rounded-md focus:shadow-xl focus:outline-none"
+        >
+          Skip to main content
+        </a>
 
-      {/* Main Semantic Content Area */}
-      <main id="main-content" className="flex-1 w-full flex flex-col">
-        {/* 01: Hero Section */}
-        <Hero />
+        {/* Sticky Global Navigation */}
+        <Navbar />
 
-        {/* 02: About Section */}
-        <About />
+        {/* Main Semantic Content Area */}
+        <main id="main-content" className="flex-1 w-full flex flex-col">
+          {/* 01: Hero Section */}
+          <Hero />
 
-        {/* 03: Projects Section */}
-        <Projects />
+          {/* 02: About Section */}
+          <About />
 
-        {/* 04: Skills & Toolkit Section */}
-        <Skills />
+          {/* 03: Projects Section */}
+          <Projects />
 
-        {/* 05: Academic & Dev Journey Section */}
-        <Journey />
+          {/* 04: Skills & Toolkit Section */}
+          <Skills />
 
-        {/* 06: Certifications Section */}
-        <Certifications />
+          {/* 05: Academic & Dev Journey Section */}
+          <Journey />
 
-        {/* 07: Contact & Messaging Section */}
-        <Contact />
-      </main>
+          {/* 06: Certifications Section */}
+          <Certifications />
 
-      {/* Global Semantic Footer */}
-      <Footer />
-    </div>
+          {/* 07: Contact & Messaging Section */}
+          <Contact />
+        </main>
+
+        {/* Global Semantic Footer */}
+        <Footer />
+      </div>
+    </MotionConfig>
   );
 }

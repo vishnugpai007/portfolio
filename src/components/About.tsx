@@ -203,10 +203,10 @@ export const About: React.FC = () => {
                           <span>Certification</span>
                         </div>
                         <p className="text-text font-medium">
-                          HTML5 – Web Application Development
+                          HTML5 Application Development
                         </p>
                         <p className="text-xs text-secondary-text mt-0.5">
-                          Foundational web application development and semantic markup.
+                          Certified by Certiport (Pearson VUE) in semantic web markup and application development.
                         </p>
                       </div>
 

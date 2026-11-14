@@ -53,7 +53,7 @@ const TIMELINE_STEPS: TimelineStep[] = [
       'Developed foundational programming intuition in C, algorithmic logic, computer organization, and completed HTML5 Web Application Development fundamentals while experimenting with modern frontend interfaces.',
     focusItems: [
       'C Programming & Logic',
-      'HTML5 Web Application Certification',
+      'HTML5 Application Development (Certiport)',
       'Frontend Exploration (AngularJS, JS, CSS)',
       'Algorithmic Problem Solving',
     ],
