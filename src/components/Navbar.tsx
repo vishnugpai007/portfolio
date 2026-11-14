@@ -15,6 +15,7 @@ const NAV_ITEMS: NavItem[] = [
   { name: 'Projects', href: '#projects', id: 'projects' },
   { name: 'Skills', href: '#skills', id: 'skills' },
   { name: 'Journey', href: '#journey', id: 'journey' },
+  { name: 'Certifications', href: '#certifications', id: 'certifications' },
   { name: 'Contact', href: '#contact', id: 'contact' },
 ];
 
@@ -131,7 +132,7 @@ export const Navbar: React.FC = () => {
         {/* Center: Desktop Navigation */}
         <nav
           aria-label="Main Navigation"
-          className="hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full border border-border/80 bg-secondary-bg/60 backdrop-blur-sm"
+          className="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-full border border-border/80 bg-secondary-bg/60 backdrop-blur-sm"
         >
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
@@ -179,7 +180,7 @@ export const Navbar: React.FC = () => {
             aria-label={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-navigation"
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-md border border-border bg-card text-text hover:text-accent hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
+            className="lg:hidden inline-flex items-center justify-center p-2 rounded-md border border-border bg-card text-text hover:text-accent hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>

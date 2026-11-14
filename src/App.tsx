@@ -1,44 +1,12 @@
-import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
 import { Journey } from './components/Journey';
+import { Certifications } from './components/Certifications';
+import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
-
-interface SectionPlaceholderProps {
-  id: string;
-  title: string;
-  subtitle: string;
-  tag: string;
-}
-
-const SectionPlaceholder: React.FC<SectionPlaceholderProps> = ({ id, title, subtitle, tag }) => {
-  return (
-    <section
-      id={id}
-      aria-labelledby={`${id}-heading`}
-      className="min-h-[70vh] flex flex-col justify-center px-4 sm:px-6 md:px-8 py-20 border-b border-border/50 scroll-mt-16"
-    >
-      <div className="max-w-6xl mx-auto w-full">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card text-accent text-xs font-mono mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-          <span>{tag}</span>
-        </div>
-        <h2
-          id={`${id}-heading`}
-          className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold tracking-tight text-text mb-3"
-        >
-          {title}
-        </h2>
-        <p className="text-secondary-text max-w-xl text-base sm:text-lg font-body">
-          {subtitle}
-        </p>
-      </div>
-    </section>
-  );
-};
 
 export default function App() {
   return (
@@ -56,27 +24,26 @@ export default function App() {
 
       {/* Main Semantic Content Area */}
       <main id="main-content" className="flex-1 w-full flex flex-col">
-        {/* Genuine Hero Section */}
+        {/* 01: Hero Section */}
         <Hero />
 
-        {/* Genuine About Section */}
+        {/* 02: About Section */}
         <About />
 
-        {/* Genuine Projects Section */}
+        {/* 03: Projects Section */}
         <Projects />
 
-        {/* Genuine Skills Section */}
+        {/* 04: Skills & Toolkit Section */}
         <Skills />
 
-        {/* Genuine Journey Section */}
+        {/* 05: Academic & Dev Journey Section */}
         <Journey />
 
-        <SectionPlaceholder
-          id="contact"
-          tag="06 // CONNECT"
-          title="Contact"
-          subtitle="Get in touch via email, LinkedIn, or GitHub placeholder."
-        />
+        {/* 06: Certifications Section */}
+        <Certifications />
+
+        {/* 07: Contact & Messaging Section */}
+        <Contact />
       </main>
 
       {/* Global Semantic Footer */}

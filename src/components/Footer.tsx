@@ -8,6 +8,7 @@ const FOOTER_NAV = [
   { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
   { name: 'Journey', href: '#journey' },
+  { name: 'Certifications', href: '#certifications' },
   { name: 'Contact', href: '#contact' },
 ];
 
