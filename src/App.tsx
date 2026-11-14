@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
+import { Projects } from './components/Projects';
 import { Footer } from './components/Footer';
 
 interface SectionPlaceholderProps {
@@ -59,12 +60,9 @@ export default function App() {
         {/* Genuine About Section */}
         <About />
 
-        <SectionPlaceholder
-          id="projects"
-          tag="03 // WORK"
-          title="Projects"
-          subtitle="Genuine project showcases: CampusFix and First Project – AngularJS placeholder."
-        />
+        {/* Genuine Projects Section */}
+        <Projects />
+
         <SectionPlaceholder
           id="skills"
           tag="04 // CAPABILITIES"
